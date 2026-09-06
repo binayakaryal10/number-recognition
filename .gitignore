@@ -1,0 +1,15 @@
+# Ignore large CSV datasets (not needed for deployment, model is already trained)
+mnist_train.csv
+mnist_test.csv
+
+# Python cache & virtual environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+.vscode/
+
+# Snapshots taken during camera detection
+digit_snapshot_*.png
