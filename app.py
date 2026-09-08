@@ -1,11 +1,3 @@
-"""
-Streamlit Web Application: Real-Time Handwritten Digit Recognizer
-Enables users to:
-1. Snap a photo of a digit using their webcam/phone camera.
-2. Draw a digit directly on an interactive canvas.
-3. Upload an existing digit photo or image.
-"""
-
 import os
 import io
 import cv2

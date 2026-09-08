@@ -1,110 +1,167 @@
-# 🔢 Real-Time Handwritten Digit Recognition (CNN + Camera & Streamlit Web App)
+# 🔢 Handwritten Digit Recognition
 
-A complete end-to-end Deep Learning system that recognizes handwritten numbers using a Convolutional Neural Network (CNN) trained on the MNIST dataset (**99.09% test accuracy**).
+A handwritten digit recognition project built using **Python, TensorFlow/Keras, CNN, OpenCV, and Streamlit**.
 
-This project supports **two deployment environments**:
-1. **🌐 Web Application (Streamlit)**: Deployable online so anyone with a smartphone or browser can snap a photo, upload an image, or draw digits on an interactive canvas.
-2. **💻 Real-Time Desktop Camera Feed (OpenCV)**: High-speed live video stream with HUD, crosshair targeting ROI, and live probability distribution.
+The model is trained on the **MNIST dataset** and achieved **99.09% accuracy on the MNIST test set**.
 
----
+The project includes a Streamlit web app where you can draw a digit, upload an image, or use a camera to make a prediction.
 
-## 🚀 1. Run the Web Application (Streamlit)
+> **Note:** The model performs best when the digit is clear, centered, and similar to the images in the MNIST dataset. Real-world photos can be more difficult because of differences in handwriting, lighting, background, and image quality.
 
-### Run Locally (1-Click)
-Double-click:
+## 🚀 Features
+
+* ✍️ Draw a digit directly on the web app
+* 📷 Capture a digit using a camera
+* 📁 Upload an image of a handwritten digit
+* 🔢 Predict digits from **0 to 9**
+* 📊 View the prediction probabilities
+* 🖼️ See how the uploaded image is processed before being given to the model
+* 💻 Run a real-time camera version locally using OpenCV
+
+## 🧠 Model
+
+The project uses a **Convolutional Neural Network (CNN)** trained on the **MNIST handwritten digit dataset**.
+
+**Test Accuracy:** 99.09%
+
+The model expects an image similar to the MNIST format:
+
+* Image size: `28 × 28`
+* Grayscale image
+* Pixel values normalized between `0` and `1`
+
+## 🖼️ Image Preprocessing
+
+Images from a camera or uploaded by the user are not always in the same format as MNIST images. To make them easier for the model to recognize, the project applies several preprocessing steps:
+
+1. Convert the image to grayscale
+2. Apply thresholding to separate the digit from the background
+3. Remove small amounts of noise
+4. Find the digit in the image
+5. Resize it while keeping its proportions
+6. Place the digit near the center of a `28 × 28` image
+7. Normalize the pixel values
+
+This preprocessing makes real-world handwritten digits more similar to the images used during training.
+
+## 🌐 Streamlit Web App
+
+The project is deployed using **Streamlit**, so it can be accessed from a browser without running the code locally.
+
+The web app supports:
+
+* **Drawing:** Draw a digit using your mouse, trackpad, or finger.
+* **Camera:** Capture a handwritten digit using a camera.
+* **Image Upload:** Upload a PNG or JPG image.
+* **Prediction:** Get the predicted digit along with probabilities for all 10 digits.
+
+## 💻 Run Locally
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/binayakaryal10/number-recognition.git
+cd number-recognition
 ```
-run_streamlit.bat
+
+### 2. Create a virtual environment
+
+```bash
+python -m venv venv
 ```
-Or run from terminal:
-```powershell
-C:\Users\LEGION\anaconda3\envs\tf_env\Scripts\streamlit.exe run app.py
+
+Activate it on Windows:
+
+```bash
+venv\Scripts\activate
 ```
-Then open **`http://localhost:8501`** in your web browser!
 
-### Web App Features:
-- 📸 **Camera Snap**: Use your laptop webcam or smartphone camera to capture a photo of a digit on paper.
-- 🖌️ **Interactive Canvas**: Draw digits directly on screen using your mouse, trackpad, or finger.
-- 📁 **Image Upload**: Upload any PNG/JPG image containing handwritten numbers.
-- 🧠 **Explainable Visuals**: View a side-by-side comparison of your raw photo vs. the normalized $28 \times 28$ image that the CNN sees.
-- 📊 **Probability Bar Chart**: Live softmax probabilities across all 10 digits (0 to 9).
+### 3. Install the required packages
 
----
-
-## 🌍 2. Deploy to the Public Web (Free for Anyone to Use)
-
-You can share your project with friends, recruiters, or users worldwide using **Streamlit Community Cloud** (100% free hosting):
-
-### Step-by-Step Deployment:
-1. **Push your code to GitHub**:
-   - Initialize git in this directory (exclude large CSVs like `mnist_train.csv` via `.gitignore`):
-     ```bash
-     git init
-     git add app.py preprocess_utils.py mnist_cnn_model.keras requirements.txt README.md
-     git commit -m "Deploy MNIST CNN Streamlit App"
-     git branch -M main
-     git remote add origin https://github.com/YOUR_USERNAME/digit-recognizer.git
-     git push -u origin main
-     ```
-2. **Go to [share.streamlit.io](https://share.streamlit.io)**:
-   - Sign in with your GitHub account.
-3. **Click "New App"**:
-   - Select your repository: `digit-recognizer`
-   - Select Branch: `main`
-   - Main file path: `app.py`
-4. **Click "Deploy!"**:
-   - Streamlit Cloud will read `requirements.txt`, install dependencies, load `mnist_cnn_model.keras`, and give you a public URL (e.g. `https://yourname-digit-recognizer.streamlit.app`)!
-   - Now anyone on any phone or laptop can visit the link, enable their camera, and recognize digits!
-
----
-
-## 💻 3. Run the Desktop Real-Time Camera Feed (OpenCV)
-
-### Run Locally (1-Click)
-Double-click:
+```bash
+pip install -r requirements.txt
 ```
+
+### 4. Run the Streamlit app
+
+```bash
+streamlit run app.py
+```
+
+The application will normally open at:
+
+```text
+http://localhost:8501
+```
+
+## 📷 Run the Desktop Camera Version
+
+You can also run the OpenCV camera application:
+
+```bash
+python realtime_detector.py
+```
+
+Or, on Windows, you can use:
+
+```text
 run_camera.bat
 ```
-Or run from terminal:
-```powershell
-C:\Users\LEGION\anaconda3\envs\tf_env\python.exe realtime_detector.py
+
+### Camera Controls
+
+| Key         | Action                |
+| ----------- | --------------------- |
+| `Q` / `ESC` | Quit                  |
+| `M`         | Change detection mode |
+| `T`         | Toggle threshold view |
+| `P`         | Pause the camera      |
+| `S`         | Save a snapshot       |
+
+## 📁 Project Structure
+
+```text
+number-recognition/
+│
+├── app.py                  # Streamlit web application
+├── realtime_detector.py    # OpenCV real-time camera application
+├── preprocess_utils.py     # Image preprocessing functions
+├── train_model.py          # CNN training script
+├── mnist_cnn_model.keras   # Trained CNN model
+├── requirements.txt        # Python dependencies
+├── packages.txt            # Additional deployment packages
+├── runtime.txt             # Python runtime version
+├── run_streamlit.bat       # Windows Streamlit launcher
+├── run_camera.bat          # Windows camera launcher
+├── untitled.ipynb          # Original notebook
+└── README.md               # Project documentation
 ```
 
-### Desktop Camera Controls:
-| Key | Action |
-| :--- | :--- |
-| **`q`** or **`ESC`** | Quit application |
-| **`m`** | Toggle Mode: Center Target ROI Box vs. Multi-Digit Auto-Contour Detection |
-| **`t`** | Toggle binary threshold mask view |
-| **`p`** | Pause / Freeze live frame |
-| **`s`** | Save a snapshot to disk (`digit_snapshot_X.png`) |
+## 📚 What I Learned
 
----
+Working on this project helped me understand:
 
-## 🧠 Preprocessing Pipeline (Why it Works on Real-World Paper)
+* How CNNs are used for image classification
+* How to train and save a TensorFlow/Keras model
+* Image preprocessing with OpenCV
+* Working with the MNIST dataset
+* Connecting a trained model to a web application
+* Deploying a machine learning project using Streamlit
+* The difference between performance on a standard dataset and real-world images
 
-Unlike raw camera crops which fail on MNIST models, this project implements Yann LeCun's exact centering standard:
-1. **Adaptive Inverted Thresholding**: Converts dark ink on white paper into bright strokes on a dark background.
-2. **Noise Filtering & Dilation**: Cleans speckles and thickens fine ballpoint pen lines to match MNIST stroke weight.
-3. **Aspect-Ratio Preserving Resize**: Resizes the bounding box to fit inside $20 \times 20$ pixels without stretching.
-4. **Center-of-Mass Centering**: Computes spatial moments ($M_{10}/M_{00}$ and $M_{01}/M_{00}$) and shifts the digit directly to the center of a $28 \times 28$ canvas.
-5. **Normalization**: Scales pixels to $[0.0, 1.0]$ for the CNN input tensor.
+## 🔗 Project
 
----
+**GitHub:**
+https://github.com/binayakaryal10/number-recognition
 
-## 📂 Project Structure
+**Live Demo:**
+https://binayak-numberrecognition.streamlit.app/
 
-```
-Number recognization/
-├── app.py                  # Streamlit Web Application (Camera + Canvas + Upload)
-├── realtime_detector.py    # OpenCV Desktop live camera application
-├── preprocess_utils.py     # Adaptive thresholding & center-of-mass centering
-├── train_model.py          # Script to train CNN and export .keras model
-├── mnist_cnn_model.keras   # Saved trained CNN model (~1.4 MB, 99.09% accuracy)
-├── requirements.txt        # Cloud deployment dependencies (Streamlit Cloud, etc.)
-├── run_streamlit.bat       # 1-Click launcher for Streamlit Web App
-├── run_camera.bat          # 1-Click launcher for OpenCV Camera App
-├── README.md               # Documentation & deployment guide
-├── untitled.ipynb          # Original exploratory notebook
-├── mnist_train.csv         # MNIST training dataset
-└── mnist_test.csv          # MNIST test dataset
-```
+## 🛠️ Technologies Used
+
+* Python
+* TensorFlow / Keras
+* OpenCV
+* NumPy
+* Streamlit
+* MNIST
